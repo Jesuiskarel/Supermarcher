@@ -1,0 +1,143 @@
+# Rapport de Projet : Système de Gestion de Stock pour Supermarché  
+
+**Nom :** ONDO JEAN KAREL  
+**Matricule :** 22U2381  
+
+---
+
+## **Introduction**  
+
+Ce projet a pour objectif de développer un système de gestion de stock pour le supermarché Dovv à Biyem-Assi, Yaoundé. Ce système permet une gestion centralisée des produits, des clients, des fournisseurs, et des commandes. Les principales fonctionnalités incluent l’ajout, la modification et la suppression de produits, la gestion des commandes, et le suivi de l’inventaire.  
+
+Le projet est réalisé dans le cadre du cours **INF 231 : Programmation Orientée Objet** dirigé par **Dr. Azanzi Jiomekong**.
+
+---
+
+## **Structure du Projet**  
+
+### Organisation des fichiers  
+
+Le projet est structuré comme suit :  
+
+```plaintext
+Supermarché/  
+├── database/  
+│   ├── Database.h                 # Gestion des interactions SQLite  
+│   └── Database.cpp  
+├── gestion/  
+│   ├── GestionClients.h           # Gestion des clients  
+│   ├── GestionClients.cpp  
+│   ├── GestionCommandes.h         # Gestion des commandes  
+│   ├── GestionCommandes.cpp  
+│   ├── GestionFournisseurs.h      # Gestion des fournisseurs  
+│   ├── GestionFournisseurs.cpp  
+│   ├── GestionInventaire.h        # Gestion de l'inventaire  
+│   ├── GestionInventaire.cpp  
+│   ├── GestionProduits.h          # Gestion des produits  
+│   └── GestionProduits.cpp  
+├── models/  
+│   ├── Client.cpp                 # Modèle des clients  
+│   ├── Commande.cpp               # Modèle des commandes  
+│   ├── Fournisseur.cpp            # Modèle des fournisseurs  
+│   └── Produit.cpp                # Modèle des produits  
+├── utils/  
+│   └── Utils.cpp                  # Fonctions utilitaires  
+├── build/                         # Répertoire pour les fichiers compilés  
+├── main.cpp                       # Point d’entrée principal  
+├── makefile                       # Script de compilation  
+├── supermarche                    # Fichier exécutable  
+├── supermarche.db                 # Base de données SQLite  
+├── supermarche.sql                # Script SQL pour l'initialisation  
+└── README.md                      # Documentation du projet  
+```  
+
+---
+
+## **Fonctionnalités**  
+
+### 1. **Gestion des Produits**  
+- **Créer un produit :** Ajouter un produit avec ses attributs (nom, prix, quantité, fournisseur, etc.).  
+- **Mettre à jour un produit :** Modifier les détails d’un produit existant.  
+- **Supprimer un produit :** Retirer un produit de l’inventaire.  
+- **Afficher les produits :** Lister tous les produits disponibles.  
+- **Rechercher un produit :** Trouver un produit par nom, catégorie ou fournisseur.  
+
+### 2. **Gestion des Commandes**  
+- **Créer une commande :** Enregistrer une commande incluant les produits et quantités souhaitées.  
+- **Traiter une commande :** Réduire les stocks des produits commandés.  
+- **Annuler une commande :** Restaurer les stocks si une commande est annulée.  
+
+### 3. **Gestion de l’Inventaire**  
+- **Réapprovisionner :** Ajouter du stock aux produits en faible quantité.  
+- **Vérifier l’inventaire :** Contrôler la disponibilité d’un produit.  
+
+### 4. **Gestion des Clients et Fournisseurs**  
+- **Clients :** Ajouter, modifier et supprimer les informations des clients.  
+- **Fournisseurs :** Ajouter et gérer les informations des fournisseurs.  
+
+### 5. **Base de Données**  
+- Utilisation de SQLite pour stocker les données des produits, clients, fournisseurs et commandes.  
+
+---
+
+## **Dépendances et Pré-requis**  
+
+1. **Compilateur** : GCC avec support pour **C++17**.  
+2. **Base de données** : SQLite3 et son extension C++.  
+3. **OS** : Linux ou un environnement Unix-like.  
+
+---
+
+## **Conception Orientée Objet**  
+
+### **Classes et leurs Attributs**
+
+| Classe          | Attributs Principaux                       | Méthodes Clés                          |  
+|------------------|-------------------------------------------|----------------------------------------|  
+| **Produit**      | id, nom, prix, quantité, fournisseurId    | créerProduit(), mettreAJourProduit()  |  
+| **Commande**     | id, clientId, produits[], total           | créerCommande(), traiterCommande()    |  
+| **Client**       | id, nom, email, téléphone                | ajouterClient(), supprimerClient()    |  
+| **Fournisseur**  | id, nom, adresse, téléphone              | ajouterFournisseur(), rechercherFournisseur()  |  
+
+---
+
+### **Diagramme UML**  
+
+Un diagramme UML est disponible dans le fichier `Supermarché_Diagramme_UML.pdf` qui décrit les relations entre les classes, y compris l’héritage et les associations.
+
+---
+
+## **Installation et Utilisation**  
+
+1. **Cloner le projet** :  
+   ```bash  
+   git clone <url-du-repo>  
+   cd Supermarché  
+   ```  
+
+2. **Compiler le projet** :  
+   ```bash  
+   make  
+   ```  
+
+3. **Lancer l’application** :  
+   ```bash  
+   ./supermarche  
+   ```  
+
+4. **Nettoyer les fichiers compilés** :  
+   ```bash  
+   make clean  
+   ```  
+
+---
+
+## **Conclusion**  
+
+Le système développé répond aux besoins d'un supermarché en offrant une gestion efficace des stocks, des commandes, des clients et des fournisseurs. Il utilise une approche modulaire, facilitant la maintenance et l'extension future.  
+
+--- 
+
+**Contributeur Principal :**  
+- **Nom :** ONDO JEAN KAREL  
+- **Matricule :** 22U2381  

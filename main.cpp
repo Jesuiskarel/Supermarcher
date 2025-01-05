@@ -8,6 +8,8 @@
 #include "gestion/GestionProduits.h"
 #include "gestion/GestionCommandes.h"
 #include "gestion/GestionInventaire.h"
+#include "gestion/GestionClients.h"
+#include "gestion/GestionFournisseurs.h"
 #include "models/Produit.h"
 #include "models/Commande.h"
 #include "utils/Utils.h"
@@ -27,6 +29,138 @@ void clearScreen() {
 void afficherTitre(const std::string& titre) {
     clearScreen();
     std::cout << "\n=== " << titre << " ===\n\n";
+}
+
+// Menu Gestion des fournisseurs
+void menuGestionFournisseurs(GestionFournisseurs& gestionFournisseurs) {
+    while (true) {
+        afficherTitre("Gestion des Fournisseurs");
+        std::cout << "1. Ajouter un fournisseur\n";
+        std::cout << "2. Modifier un fournisseur\n";
+        std::cout << "3. Supprimer un fournisseur\n";
+        std::cout << "4. Afficher tous les fournisseurs\n";
+        std::cout << "5. Rechercher un fournisseur\n";
+        std::cout << "6. Retour au menu principal\n";
+        std::cout << "\nChoisissez une option : ";
+        int choix = Utils::getIntInput("");
+
+        switch (choix) {
+            case 1: {
+                std::string nom = Utils::getStringInput("Nom du fournisseur : ");
+                std::string adresse = Utils::getStringInput("Adresse du fournisseur : ");
+                std::string telephone = Utils::getStringInput("Téléphone du fournisseur : ");
+                gestionFournisseurs.creerFournisseur(nom, adresse, telephone);
+                break;
+            }
+            case 2: {
+                int id = Utils::getIntInput("ID du fournisseur à modifier : ");
+                std::string nom = Utils::getStringInput("Nouveau nom : ");
+                std::string adresse = Utils::getStringInput("Nouvelle adresse : ");
+                std::string telephone = Utils::getStringInput("Nouveau téléphone : ");
+                gestionFournisseurs.modifierFournisseur(id, nom, adresse, telephone);
+                break;
+            }
+            case 3: {
+                int id = Utils::getIntInput("ID du fournisseur à supprimer : ");
+                gestionFournisseurs.supprimerFournisseur(id);
+                break;
+            }
+            case 4: {
+                auto fournisseurs = gestionFournisseurs.afficherTousLesFournisseurs();
+                for (const auto& fournisseur : fournisseurs) {
+                    for (const auto& champ : fournisseur) {
+                        std::cout << champ << " ";
+                    }
+                    std::cout << "\n";
+                }
+                break;
+            }
+            case 5: {
+                int id = Utils::getIntInput("Entrez un critère de recherche : ");
+                auto fournisseurs = gestionFournisseurs.rechercherFournisseur(id);
+                for (const auto& fournisseur : fournisseurs) {
+                    for (const auto& champ : fournisseur) {
+                        std::cout << champ << " ";
+                    }
+                    std::cout << "\n";
+                }
+                break;
+            }
+            case 6:
+                return;
+            default:
+                std::cout << "Option invalide.\n";
+        }
+        Utils::attendreEntree();
+    }
+}
+
+
+// Menu Gestion des clients
+void menuGestionClients(GestionClients& gestionClients) {
+    while (true) {
+        afficherTitre("Gestion des Clients");
+        std::cout << "1. Ajouter un client\n";
+        std::cout << "2. Mettre à jour les informations d'un client\n";
+        std::cout << "3. Supprimer un client\n";
+        std::cout << "4. Afficher tous les clients\n";
+        std::cout << "5. Rechercher un client\n";
+        std::cout << "6. Retour au menu principal\n";
+        std::cout << "\nChoisissez une option : ";
+        int choix = Utils::getIntInput("");
+
+        switch (choix) {
+            case 1: {
+                std::string nom = Utils::getStringInput("Nom du client : ");
+                std::string email = Utils::getStringInput("Email du client : ");
+                std::string telephone = Utils::getStringInput("Téléphone du client : ");
+                gestionClients.creerClient(nom, email, telephone);
+                std::cout << "Client ajouté avec succès !\n";
+                break;
+            }
+            case 2: {
+                int clientId = Utils::getIntInput("ID du client à mettre à jour : ");
+                std::string nouveauNom = Utils::getStringInput("Nouveau nom (laisser vide pour conserver l'ancien) : ");
+                std::string nouvelEmail = Utils::getStringInput("Nouvel email (laisser vide pour conserver l'ancien) : ");
+                std::string nouveauTelephone = Utils::getStringInput("Nouveau téléphone (laisser vide pour conserver l'ancien) : ");
+                gestionClients.modifierClient(clientId, nouveauNom, nouvelEmail, nouveauTelephone);
+                std::cout << "Informations du client mises à jour avec succès !\n";
+                break;
+            }
+            case 3: {
+                int clientId = Utils::getIntInput("ID du client à supprimer : ");
+                gestionClients.supprimerClient(clientId);
+                std::cout << "Client supprimé avec succès !\n";
+                break;
+            }
+            case 4: {
+                auto clients = gestionClients.afficherTousLesClients();
+                for (const auto& client : clients) {
+                    for (const auto& champ : client) {
+                        std::cout << champ << " ";
+                    }
+                    std::cout << "\n";
+                }
+                break;
+            }
+            case 5: {
+                int clientId = Utils::getIntInput("ID du client à rechercher : ");
+                auto clients = gestionClients.rechercherClient(clientId);
+                for (const auto& client : clients) {
+                     for (const auto& champ : client) {
+                          std::cout << champ << " ";
+                     }
+                       std::cout << "\n";
+                }
+                break;
+            }
+            case 6:
+                return;
+            default:
+                std::cout << "Option invalide.\n";
+        }
+        Utils::attendreEntree();
+    }
 }
 
 // Menu Recherche de produits
@@ -250,8 +384,10 @@ void afficherMenuPrincipal() {
     std::cout << "1. Gestion des produits\n";
     std::cout << "2. Gestion des commandes\n";
     std::cout << "3. Gestion de l'inventaire\n";
-    std::cout << "4. Recherche de produits\n";
-    std::cout << "5. Quitter\n";
+    std::cout << "4. Gestion des clients\n";
+    std::cout << "5. Gestion des fournisseurs\n";
+    std::cout << "6. Recherche de produits\n";
+    std::cout << "7. Quitter\n";
     std::cout << "\nChoisissez une option : ";
 }
 
@@ -263,6 +399,8 @@ int main() {
         GestionProduits gestionProduits(db);
         GestionCommandes gestionCommandes(db);
         GestionInventaire gestionInventaire(db);
+        GestionClients gestionClients(db);
+        GestionFournisseurs gestionFournisseurs(db);
 
         // Menu principal
         while (true) {
@@ -280,9 +418,15 @@ int main() {
                     menuGestionInventaire(gestionInventaire);
                     break;
                 case 4:
-                    menuRechercheProduits(gestionProduits);
+                    menuGestionClients(gestionClients);
                     break;
                 case 5:
+                    menuGestionFournisseurs(gestionFournisseurs);
+                    break;
+                case 6:
+                    menuRechercheProduits(gestionProduits);
+                    break;
+                case 7:
                     std::cout << "Merci d'avoir utilisé l'application. À bientôt !\n";
                     return 0;
                 default:
